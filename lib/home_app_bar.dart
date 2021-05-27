@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habit_app/database/moor_database.dart';
+import 'package:moor_db_viewer/moor_db_viewer.dart';
+import 'package:provider/provider.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
@@ -21,6 +24,14 @@ class HomeAppBar extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.more_vert),
           onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(Icons.info),
+          onPressed: () {
+            final db = Provider.of<Database>(context, listen: false);
+
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MoorDbViewer(db)));
+          },
         )
       ],
       bottom: TabBar(

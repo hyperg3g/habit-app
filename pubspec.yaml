@@ -37,6 +37,7 @@ dependencies:
   sqlite3_flutter_libs:
   path_provider:
   path:
+  moor_db_viewer: ^4.0.0
 
 dev_dependencies:
   flutter_test:

@@ -10,17 +10,17 @@ part of 'moor_database.dart';
 class Habit extends DataClass implements Insertable<Habit> {
   final int id;
   final int count;
-  final int periodicity;
+  final int frequency;
   final String title;
-  final String subtitle;
+  final String description;
   final String type;
   final String priority;
   Habit(
       {@required this.id,
       @required this.count,
-      @required this.periodicity,
+      @required this.frequency,
       @required this.title,
-      @required this.subtitle,
+      @required this.description,
       @required this.type,
       @required this.priority});
   factory Habit.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -30,12 +30,12 @@ class Habit extends DataClass implements Insertable<Habit> {
       id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
       count: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}count']),
-      periodicity: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}periodicity']),
+      frequency: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}frequency']),
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title']),
-      subtitle: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}subtitle']),
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       type: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}type']),
       priority: const StringType()
@@ -51,14 +51,14 @@ class Habit extends DataClass implements Insertable<Habit> {
     if (!nullToAbsent || count != null) {
       map['count'] = Variable<int>(count);
     }
-    if (!nullToAbsent || periodicity != null) {
-      map['periodicity'] = Variable<int>(periodicity);
+    if (!nullToAbsent || frequency != null) {
+      map['frequency'] = Variable<int>(frequency);
     }
     if (!nullToAbsent || title != null) {
       map['title'] = Variable<String>(title);
     }
-    if (!nullToAbsent || subtitle != null) {
-      map['subtitle'] = Variable<String>(subtitle);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
     }
     if (!nullToAbsent || type != null) {
       map['type'] = Variable<String>(type);
@@ -74,14 +74,14 @@ class Habit extends DataClass implements Insertable<Habit> {
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       count:
           count == null && nullToAbsent ? const Value.absent() : Value(count),
-      periodicity: periodicity == null && nullToAbsent
+      frequency: frequency == null && nullToAbsent
           ? const Value.absent()
-          : Value(periodicity),
+          : Value(frequency),
       title:
           title == null && nullToAbsent ? const Value.absent() : Value(title),
-      subtitle: subtitle == null && nullToAbsent
+      description: description == null && nullToAbsent
           ? const Value.absent()
-          : Value(subtitle),
+          : Value(description),
       type: type == null && nullToAbsent ? const Value.absent() : Value(type),
       priority: priority == null && nullToAbsent
           ? const Value.absent()
@@ -95,9 +95,9 @@ class Habit extends DataClass implements Insertable<Habit> {
     return Habit(
       id: serializer.fromJson<int>(json['id']),
       count: serializer.fromJson<int>(json['count']),
-      periodicity: serializer.fromJson<int>(json['periodicity']),
+      frequency: serializer.fromJson<int>(json['frequency']),
       title: serializer.fromJson<String>(json['title']),
-      subtitle: serializer.fromJson<String>(json['subtitle']),
+      description: serializer.fromJson<String>(json['description']),
       type: serializer.fromJson<String>(json['type']),
       priority: serializer.fromJson<String>(json['priority']),
     );
@@ -108,9 +108,9 @@ class Habit extends DataClass implements Insertable<Habit> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'count': serializer.toJson<int>(count),
-      'periodicity': serializer.toJson<int>(periodicity),
+      'frequency': serializer.toJson<int>(frequency),
       'title': serializer.toJson<String>(title),
-      'subtitle': serializer.toJson<String>(subtitle),
+      'description': serializer.toJson<String>(description),
       'type': serializer.toJson<String>(type),
       'priority': serializer.toJson<String>(priority),
     };
@@ -119,17 +119,17 @@ class Habit extends DataClass implements Insertable<Habit> {
   Habit copyWith(
           {int id,
           int count,
-          int periodicity,
+          int frequency,
           String title,
-          String subtitle,
+          String description,
           String type,
           String priority}) =>
       Habit(
         id: id ?? this.id,
         count: count ?? this.count,
-        periodicity: periodicity ?? this.periodicity,
+        frequency: frequency ?? this.frequency,
         title: title ?? this.title,
-        subtitle: subtitle ?? this.subtitle,
+        description: description ?? this.description,
         type: type ?? this.type,
         priority: priority ?? this.priority,
       );
@@ -138,9 +138,9 @@ class Habit extends DataClass implements Insertable<Habit> {
     return (StringBuffer('Habit(')
           ..write('id: $id, ')
           ..write('count: $count, ')
-          ..write('periodicity: $periodicity, ')
+          ..write('frequency: $frequency, ')
           ..write('title: $title, ')
-          ..write('subtitle: $subtitle, ')
+          ..write('description: $description, ')
           ..write('type: $type, ')
           ..write('priority: $priority')
           ..write(')'))
@@ -153,10 +153,10 @@ class Habit extends DataClass implements Insertable<Habit> {
       $mrjc(
           count.hashCode,
           $mrjc(
-              periodicity.hashCode,
+              frequency.hashCode,
               $mrjc(
                   title.hashCode,
-                  $mrjc(subtitle.hashCode,
+                  $mrjc(description.hashCode,
                       $mrjc(type.hashCode, priority.hashCode)))))));
   @override
   bool operator ==(Object other) =>
@@ -164,9 +164,9 @@ class Habit extends DataClass implements Insertable<Habit> {
       (other is Habit &&
           other.id == this.id &&
           other.count == this.count &&
-          other.periodicity == this.periodicity &&
+          other.frequency == this.frequency &&
           other.title == this.title &&
-          other.subtitle == this.subtitle &&
+          other.description == this.description &&
           other.type == this.type &&
           other.priority == this.priority);
 }
@@ -174,49 +174,49 @@ class Habit extends DataClass implements Insertable<Habit> {
 class HabitsCompanion extends UpdateCompanion<Habit> {
   final Value<int> id;
   final Value<int> count;
-  final Value<int> periodicity;
+  final Value<int> frequency;
   final Value<String> title;
-  final Value<String> subtitle;
+  final Value<String> description;
   final Value<String> type;
   final Value<String> priority;
   const HabitsCompanion({
     this.id = const Value.absent(),
     this.count = const Value.absent(),
-    this.periodicity = const Value.absent(),
+    this.frequency = const Value.absent(),
     this.title = const Value.absent(),
-    this.subtitle = const Value.absent(),
+    this.description = const Value.absent(),
     this.type = const Value.absent(),
     this.priority = const Value.absent(),
   });
   HabitsCompanion.insert({
     this.id = const Value.absent(),
     @required int count,
-    @required int periodicity,
+    @required int frequency,
     @required String title,
-    @required String subtitle,
+    @required String description,
     @required String type,
     @required String priority,
   })  : count = Value(count),
-        periodicity = Value(periodicity),
+        frequency = Value(frequency),
         title = Value(title),
-        subtitle = Value(subtitle),
+        description = Value(description),
         type = Value(type),
         priority = Value(priority);
   static Insertable<Habit> custom({
     Expression<int> id,
     Expression<int> count,
-    Expression<int> periodicity,
+    Expression<int> frequency,
     Expression<String> title,
-    Expression<String> subtitle,
+    Expression<String> description,
     Expression<String> type,
     Expression<String> priority,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (count != null) 'count': count,
-      if (periodicity != null) 'periodicity': periodicity,
+      if (frequency != null) 'frequency': frequency,
       if (title != null) 'title': title,
-      if (subtitle != null) 'subtitle': subtitle,
+      if (description != null) 'description': description,
       if (type != null) 'type': type,
       if (priority != null) 'priority': priority,
     });
@@ -225,17 +225,17 @@ class HabitsCompanion extends UpdateCompanion<Habit> {
   HabitsCompanion copyWith(
       {Value<int> id,
       Value<int> count,
-      Value<int> periodicity,
+      Value<int> frequency,
       Value<String> title,
-      Value<String> subtitle,
+      Value<String> description,
       Value<String> type,
       Value<String> priority}) {
     return HabitsCompanion(
       id: id ?? this.id,
       count: count ?? this.count,
-      periodicity: periodicity ?? this.periodicity,
+      frequency: frequency ?? this.frequency,
       title: title ?? this.title,
-      subtitle: subtitle ?? this.subtitle,
+      description: description ?? this.description,
       type: type ?? this.type,
       priority: priority ?? this.priority,
     );
@@ -250,14 +250,14 @@ class HabitsCompanion extends UpdateCompanion<Habit> {
     if (count.present) {
       map['count'] = Variable<int>(count.value);
     }
-    if (periodicity.present) {
-      map['periodicity'] = Variable<int>(periodicity.value);
+    if (frequency.present) {
+      map['frequency'] = Variable<int>(frequency.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
     }
-    if (subtitle.present) {
-      map['subtitle'] = Variable<String>(subtitle.value);
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
     }
     if (type.present) {
       map['type'] = Variable<String>(type.value);
@@ -273,9 +273,9 @@ class HabitsCompanion extends UpdateCompanion<Habit> {
     return (StringBuffer('HabitsCompanion(')
           ..write('id: $id, ')
           ..write('count: $count, ')
-          ..write('periodicity: $periodicity, ')
+          ..write('frequency: $frequency, ')
           ..write('title: $title, ')
-          ..write('subtitle: $subtitle, ')
+          ..write('description: $description, ')
           ..write('type: $type, ')
           ..write('priority: $priority')
           ..write(')'))
@@ -308,15 +308,13 @@ class $HabitsTable extends Habits with TableInfo<$HabitsTable, Habit> {
     );
   }
 
-  final VerificationMeta _periodicityMeta =
-      const VerificationMeta('periodicity');
-  GeneratedIntColumn _periodicity;
+  final VerificationMeta _frequencyMeta = const VerificationMeta('frequency');
+  GeneratedIntColumn _frequency;
   @override
-  GeneratedIntColumn get periodicity =>
-      _periodicity ??= _constructPeriodicity();
-  GeneratedIntColumn _constructPeriodicity() {
+  GeneratedIntColumn get frequency => _frequency ??= _constructFrequency();
+  GeneratedIntColumn _constructFrequency() {
     return GeneratedIntColumn(
-      'periodicity',
+      'frequency',
       $tableName,
       false,
     );
@@ -331,12 +329,14 @@ class $HabitsTable extends Habits with TableInfo<$HabitsTable, Habit> {
         minTextLength: 1, maxTextLength: 32);
   }
 
-  final VerificationMeta _subtitleMeta = const VerificationMeta('subtitle');
-  GeneratedTextColumn _subtitle;
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  GeneratedTextColumn _description;
   @override
-  GeneratedTextColumn get subtitle => _subtitle ??= _constructSubtitle();
-  GeneratedTextColumn _constructSubtitle() {
-    return GeneratedTextColumn('subtitle', $tableName, false,
+  GeneratedTextColumn get description =>
+      _description ??= _constructDescription();
+  GeneratedTextColumn _constructDescription() {
+    return GeneratedTextColumn('description', $tableName, false,
         minTextLength: 1, maxTextLength: 32);
   }
 
@@ -360,7 +360,7 @@ class $HabitsTable extends Habits with TableInfo<$HabitsTable, Habit> {
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, count, periodicity, title, subtitle, type, priority];
+      [id, count, frequency, title, description, type, priority];
   @override
   $HabitsTable get asDslTable => this;
   @override
@@ -381,13 +381,11 @@ class $HabitsTable extends Habits with TableInfo<$HabitsTable, Habit> {
     } else if (isInserting) {
       context.missing(_countMeta);
     }
-    if (data.containsKey('periodicity')) {
-      context.handle(
-          _periodicityMeta,
-          periodicity.isAcceptableOrUnknown(
-              data['periodicity'], _periodicityMeta));
+    if (data.containsKey('frequency')) {
+      context.handle(_frequencyMeta,
+          frequency.isAcceptableOrUnknown(data['frequency'], _frequencyMeta));
     } else if (isInserting) {
-      context.missing(_periodicityMeta);
+      context.missing(_frequencyMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
@@ -395,11 +393,13 @@ class $HabitsTable extends Habits with TableInfo<$HabitsTable, Habit> {
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
-    if (data.containsKey('subtitle')) {
-      context.handle(_subtitleMeta,
-          subtitle.isAcceptableOrUnknown(data['subtitle'], _subtitleMeta));
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description'], _descriptionMeta));
     } else if (isInserting) {
-      context.missing(_subtitleMeta);
+      context.missing(_descriptionMeta);
     }
     if (data.containsKey('type')) {
       context.handle(
